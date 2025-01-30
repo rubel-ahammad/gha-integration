@@ -22,6 +22,7 @@ jobs:
 
     - name: Search for ${{ github.event.inputs.build_version }} in libs.version.toml
       run: |
+        ls -ahl
         filename="gradle/libs.version.toml"
         case "${{ github.event.inputs.repository }}" in
           "gha-scratch-pad1")
