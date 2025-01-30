@@ -18,17 +18,17 @@ jobs:
     - name: Checkout source @ ${{ github.ref }}
       uses: actions/checkout@v4
       with:
-        ref: ${{ github.event.inputs.integration_branch }}
+        ref: main
 
-    - name: Search for ${{ github.event.inputs.integration_version }} in libs.version.toml
+    - name: Search for ${{ github.event.inputs.build_version }} in libs.version.toml
       run: |
         filename="gradle/libs.version.toml"
         case "${{ github.event.inputs.repository }}" in
           "gha-scratch-pad1")
-            sed -i '' -E "s/(gha1-chart = \")([^\"]+)(\")/\1${{ github.event.inputs.integration_version }}\3/" "${filename}"
+            sed -i '' -E "s/(gha1-chart = \")([^\"]+)(\")/\1${{ github.event.inputs.build_version }}\3/" "${filename}"
             ;;
           "gha-scratch-pad2")
-            sed -i '' -E "s/(gha2-chart = \")([^\"]+)(\")/\1${{ github.event.inputs.integration_version }}\3/" "${filename}"
+            sed -i '' -E "s/(gha2-chart = \")([^\"]+)(\")/\1${{ github.event.inputs.build_version }}\3/" "${filename}"
             ;;
           *)
             echo "Repository ${{ github.event.inputs.repository }} not supported"
