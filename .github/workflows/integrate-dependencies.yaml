@@ -23,7 +23,6 @@ jobs:
     - name: Search for ${{ github.event.inputs.build_version }} in libs.version.toml
       run: |
         filename="gradle/libs.version.toml"
-        man sed
         case "${{ github.event.inputs.repository }}" in
           "gha-scratch-pad1")
             sed -i -E 's/(gha1-chart\s*=\s*\")([^\"]+)(\")/\1${{ github.event.inputs.build_version }}\3/' "${filename}"
