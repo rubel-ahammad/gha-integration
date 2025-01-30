@@ -26,11 +26,11 @@ jobs:
     - name: Set Build Version
       id: build_summary
       run: |
-        if [ "${{ github.event.type }}" == "workflow_dispatch" ]; then
+        if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
           echo "Using workflow_dispatch input: ${{ github.event.inputs.build_version }}"
           echo "build_version=${{ github.event.inputs.build_version }}" >> $GITHUB_OUTPUT
           echo "build_repository=${{ github.event.inputs.build_repository }}" >> $GITHUB_OUTPUT
-        if [ "${{ github.event.type }}" == "repository_dispatch" ]; then
+        if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
           echo "Using repository_dispatch payload: ${{ github.event.client_payload.build_version }}"
           echo "build_version=${{ github.event.client_payload.build_version }}" >> $GITHUB_OUTPUT
           echo "build_repository=${{ github.event.client_payload.build_repository }}" >> $GITHUB_OUTPUT
