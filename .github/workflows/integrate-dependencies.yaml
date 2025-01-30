@@ -26,10 +26,10 @@ jobs:
         filename="gradle/libs.version.toml"
         case "${{ github.event.inputs.repository }}" in
           "gha-scratch-pad1")
-            sed -i '' -E "s/(gha1-chart = \")([^\"]+)(\")/\1${{ github.event.inputs.build_version }}\3/" "${filename}"
+            sed -i '' -E "s/(gha1-chart = \")([^\"]+)(\")/\1${{ github.event.inputs.build_version }}\3/" gradle/libs.version.toml
             ;;
           "gha-scratch-pad2")
-            sed -i '' -E "s/(gha2-chart = \")([^\"]+)(\")/\1${{ github.event.inputs.build_version }}\3/" "${filename}"
+            sed -i '' -E "s/(gha2-chart = \")([^\"]+)(\")/\1${{ github.event.inputs.build_version }}\3/" gradle/libs.version.toml
             ;;
           *)
             echo "Repository ${{ github.event.inputs.repository }} not supported"
