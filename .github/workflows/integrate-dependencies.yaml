@@ -23,7 +23,7 @@ jobs:
     - name: Search for ${{ github.event.inputs.integration_version }} in libs.version.toml
       run: |
         filename="gradle/libs.version.toml"
-        case "$${{ github.event.inputs.repository }}" in
+        case "${{ github.event.inputs.repository }}" in
           "gha-scratch-pad1")
             sed -i '' -E "s/(ai-api-chart = \")([^\"]+)(\")/\1${{ github.event.inputs.integration_version }}\3/" "${filename}"
             ;;
