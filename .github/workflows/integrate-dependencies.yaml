@@ -30,13 +30,14 @@ jobs:
           echo "Using workflow_dispatch input: ${{ github.event.inputs.build_version }}"
           echo "build_version=${{ github.event.inputs.build_version }}" >> $GITHUB_OUTPUT
           echo "build_repository=${{ github.event.inputs.build_repository }}" >> $GITHUB_OUTPUT
-        if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
+        elif [ "${{ github.event_name }}" == "repository_dispatch" ]; then
           echo "Using repository_dispatch payload: ${{ github.event.client_payload.build_version }}"
           echo "build_version=${{ github.event.client_payload.build_version }}" >> $GITHUB_OUTPUT
           echo "build_repository=${{ github.event.client_payload.build_repository }}" >> $GITHUB_OUTPUT
         else
           echo "No input provided."
           exit 1
+        fi
 
     - name: Replace ${{ steps.build_summary.outputs.build_repository }} build version with ${{ steps.build_summary.outputs.build_version }}
       run: |
