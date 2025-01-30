@@ -1,0 +1,37 @@
+name: integrate dependencies - dev
+run-name: Integrate Dependencies
+on:
+  workflow_dispatch:
+    inputs:
+      build_version:
+        description: 'Build version to integrate'
+        required: true
+        default: 'latest'
+      repository:
+        description: 'Repository to integrate'
+        required: true
+        default: 'gha-scratch-pad1'
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout source @ ${{ github.ref }}
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.inputs.integration_branch }}
+
+    - name: Search for ${{ github.event.inputs.integration_version }} in libs.version.toml
+      run: |
+        filename="gradle/libs.version.toml"
+        case "$${{ github.event.inputs.repository }}" in
+          "gha-scratch-pad1")
+            sed -i '' -E "s/(ai-api-chart = \")([^\"]+)(\")/\1${{ github.event.inputs.integration_version }}\3/" "${filename}"
+            ;;
+          "gha-scratch-pad2")
+            sed -i '' -E "s/(ai-api-chart = \")([^\"]+)(\")/\1${{ github.event.inputs.integration_version }}\3/" "${filename}"
+            ;;
+          *)
+            echo "Repository $${{ github.event.inputs.repository }} not supported"
+            exit 1
+            ;;
+        esac
