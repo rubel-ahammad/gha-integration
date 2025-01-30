@@ -31,7 +31,7 @@ jobs:
             sed -i '' -E "s/(ai-api-chart = \")([^\"]+)(\")/\1${{ github.event.inputs.integration_version }}\3/" "${filename}"
             ;;
           *)
-            echo "Repository $${{ github.event.inputs.repository }} not supported"
+            echo "Repository ${{ github.event.inputs.repository }} not supported"
             exit 1
             ;;
         esac
