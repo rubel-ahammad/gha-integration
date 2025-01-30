@@ -1,14 +1,17 @@
 name: integrate dependencies - dev
 run-name: Integrate Dependencies
 on:
+  repository_dispatch:
+    types:
+      - build-published
   workflow_dispatch:
     inputs:
       build_version:
         description: 'Build version to integrate'
         required: true
         default: 'latest'
-      repository:
-        description: 'Repository to integrate'
+      build_repository:
+        description: 'Build repository to integrate'
         required: true
         default: 'gha-scratch-pad1'
 jobs:
@@ -20,18 +23,33 @@ jobs:
       with:
         ref: main
 
-    - name: Search for ${{ github.event.inputs.build_version }} in libs.version.toml
+    - name: Set Build Version
+      id: build_summary
+      run: |
+        if [ "${{ github.event.type }}" == "workflow_dispatch" ]; then
+          echo "Using workflow_dispatch input: ${{ github.event.inputs.build_version }}"
+          echo "build_version=${{ github.event.inputs.build_version }}" >> $GITHUB_OUTPUT
+          echo "build_repository=${{ github.event.inputs.build_repository }}" >> $GITHUB_OUTPUT
+        if [ "${{ github.event.type }}" == "repository_dispatch" ]; then
+          echo "Using repository_dispatch payload: ${{ github.event.client_payload.build_version }}"
+          echo "build_version=${{ github.event.client_payload.build_version }}" >> $GITHUB_OUTPUT
+          echo "build_repository=${{ github.event.client_payload.build_repository }}" >> $GITHUB_OUTPUT
+        else
+          echo "No input provided."
+          exit 1
+
+    - name: Replace ${{ steps.build_summary.outputs.build_repository }} build version with ${{ steps.build_summary.outputs.build_version }}
       run: |
         filename="gradle/libs.version.toml"
-        case "${{ github.event.inputs.repository }}" in
+        case "${{ steps.build_summary.outputs.build_repository }}" in
           "gha-scratch-pad1")
-            sed -i -E 's/(gha1-chart\s*=\s*\")([^\"]+)(\")/\1${{ github.event.inputs.build_version }}\3/' "${filename}"
+            sed -i -E 's/(gha1-chart\s*=\s*\")([^\"]+)(\")/\1${{ steps.build_summary.outputs.build_version }}\3/' "${filename}"
             ;;
           "gha-scratch-pad2")
-            sed -i -E 's/(gha2-chart\s*=\s*\")([^\"]+)(\")/\1${{ github.event.inputs.build_version }}\3/' "${filename}"
+            sed -i -E 's/(gha2-chart\s*=\s*\")([^\"]+)(\")/\1${{ steps.build_summary.outputs.build_version }}\3/' "${filename}"
             ;;
           *)
-            echo "Repository ${{ github.event.inputs.repository }} not supported"
+            echo "Repository ${{ steps.build_summary.outputs.build_repository }} not supported"
             exit 1
             ;;
         esac
