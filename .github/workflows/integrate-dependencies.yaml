@@ -35,3 +35,8 @@ jobs:
             exit 1
             ;;
         esac
+
+    - name: Show changes
+      run: |
+          git diff
+          git status
