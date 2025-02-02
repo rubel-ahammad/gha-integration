@@ -1,5 +1,6 @@
 name: integrate dependencies - dev
 run-name: Integrate Dependencies
+
 on:
   repository_dispatch:
     types:
@@ -14,6 +15,11 @@ on:
         description: 'Build repository to integrate'
         required: true
         default: 'gha-scratch-pad1'
+
+concurrency:
+  group: "${{ github.workflow }} @ ${{ github.ref }}"
+  cancel-in-progress: true
+
 jobs:
   integrate:
     runs-on: ubuntu-latest
