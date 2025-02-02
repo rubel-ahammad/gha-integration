@@ -1,5 +1,5 @@
 name: integrate dependencies - dev
-run-name: Integrate Dependencies
+run-name: Integrate Dependencies - DEV
 
 on:
   repository_dispatch:
