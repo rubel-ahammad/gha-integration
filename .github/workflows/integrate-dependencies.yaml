@@ -70,7 +70,7 @@ jobs:
 
     - name: Push changes
       env:
-        PAT: ${{ secrets.PAT }}
+        TOKEN: ${{ secrets.PAT }}
       run: |
-        git remote set-url origin https://x-access-token:${PAT}@github.com/rubel-ahammad/gha-integration.git
+        git remote set-url origin https://x-access-token:${TOKEN}@github.com/rubel-ahammad/gha-integration.git
         git push origin main
