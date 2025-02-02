@@ -1,5 +1,5 @@
 [versions]
-gha1-chart = "latest1"
+gha1-chart = "latest4"
 gha2-chart="latest2"
 
 gha3-chart = "3.3.3"
