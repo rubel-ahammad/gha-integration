@@ -60,8 +60,8 @@ jobs:
 
     - name: Configure Git
       run: |
-        git config --global user.name "rubel-ahammad"
-        git config --global user.email "rubel.ahammad@gmail.com"
+        git config user.name "rubel-ahammad"
+        git config user.email "rubel.ahammad@gmail.com"
 
     - name: Commit changes
       run: |
